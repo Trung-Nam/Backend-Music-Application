@@ -5,7 +5,6 @@ export const protectRoute = async (req, res, next) => {
         return res.status(401).json({ message: "Unauthorized - You must be logged in" });
 
     }
-
     next();
 }
 
@@ -20,6 +19,6 @@ export const requireAdmin = async (req, res, next) => {
 
         next();
     } catch (error) {
-
+        next(error);
     }
 }
