@@ -3,8 +3,10 @@ import dotenv from 'dotenv';
 import { clerkMiddleware } from '@clerk/express'
 import fileUpload from 'express-fileupload'
 import path from 'path'
+import cors from 'cors'
 
-import { connectDB } from './lib/mongodb.js';
+
+import { connectDB } from './lib/mongodb.js'
 import userRoutes from './routes/user.route.js'
 import authRoutes from './routes/auth.route.js'
 import adminRoutes from './routes/admin.route.js'
@@ -17,6 +19,12 @@ dotenv.config();
 const app = express();
 const __dirname = path.resolve();
 const PORT = process.env.PORT || 5002;
+
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
 
 app.use(express.json()); // to parse req.body
 app.use(clerkMiddleware()); // this will add auth to req obj => req.auth
