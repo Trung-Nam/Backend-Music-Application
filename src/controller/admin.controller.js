@@ -7,6 +7,7 @@ const uploadToCloudinary = async (file) => {
     try {
         const result = await cloudinary.uploader.upload(file.tempFilePath, {
             resource_type: "auto",
+            folder: "music-flow"
         });
         return result.secure_url;
     } catch (error) {
