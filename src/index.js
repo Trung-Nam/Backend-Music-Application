@@ -27,8 +27,18 @@ const httpServer = createServer(app);
 initializeSocket(httpServer);
 
 
+const whitelist = [
+    'http://localhost:3000', 
+    'https://music-flow-application.vercel.app'
+];
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production' ? "http://localhost:3000" : "https://music-flow-application.vercel.app",
+    origin: (origin, callback) => {
+        if (whitelist.includes(origin) || !origin) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
     credentials: true
 }));
 
