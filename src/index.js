@@ -15,7 +15,8 @@ import albumRoutes from './routes/album.route.js'
 import statRoutes from './routes/stat.route.js'
 import { createServer } from 'http';
 import { initializeSocket } from './lib/socket.js';
-
+import cron from 'node-cron';
+import fs from 'fs';
 dotenv.config();
 
 const app = express();
@@ -44,6 +45,23 @@ app.use(fileUpload({
 }))
 
 
+// cron jobs
+const tempDir = path.join(process.cwd(), "tmp");
+cron.schedule("0 * * * *", () => {
+    if (fs.existsSync(tempDir)) {
+        fs.readdir(tempDir, (err, files) => {
+            if (err) {
+                console.log("error", err);
+                return;
+            }
+            for (const file of files) {
+                fs.unlink(path.join(tempDir, file), (err) => { });
+            }
+        });
+    }
+});
+
+// routes
 app.use("/api/users", userRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
