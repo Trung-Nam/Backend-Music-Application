@@ -28,7 +28,7 @@ initializeSocket(httpServer);
 
 
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: process.env.NODE_ENV === 'production' ? "http://localhost:3000" : "https://music-flow-application.vercel.app",
     credentials: true
 }));
 
