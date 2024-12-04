@@ -29,7 +29,7 @@ initializeSocket(httpServer);
 
 const whitelist = [
     'http://localhost:3000', 
-    'https://music-flow-application.vercel.app'
+    'https://music-flow-application.netlify.app'
 ];
 app.use(cors({
     origin: (origin, callback) => {
